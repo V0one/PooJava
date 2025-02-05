@@ -5,7 +5,12 @@ import java.util.Optional;
 
 public class Pharmacie {
 
-    ArrayList<Produit> produits = new ArrayList<>();
+    ArrayList<Produit> produits ;
+
+
+    public Pharmacie() {
+        this.produits = new ArrayList();
+    }
 
     public void afficherListeProduits() {
         produits.sort(Comparator.comparing(Produit::getNom));
@@ -35,4 +40,31 @@ public class Pharmacie {
             System.out.println("Produit non trouvé.");
         }
     }
+
+    public int afficherProduit (String nom) {
+        nom = nom.toUpperCase();
+        char premierChar = nom.charAt(0);
+        int debut  = 0;
+        int fin  = produits.size() - 1;
+
+        while (debut < fin) {
+            int millieu = produits.size() / 2;
+
+            if (premierChar == produits.get(millieu).getNom().toUpperCase().charAt(0)) {
+                return produits.get(millieu).getQuantite();
+            }
+            else if (premierChar < produits.get(millieu).getNom().toUpperCase().charAt(0)) {
+                fin = millieu - 1;
+            }
+            else {
+                debut = millieu + 1;
+            }
+        }
+        System.out.println("Erreur de la produit, il n'existe pas");
+        return -1;
+
+
+
+    }
+
 }
