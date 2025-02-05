@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Map;
 
 public class Pharmacie {
 
@@ -66,9 +67,38 @@ public class Pharmacie {
     public void enregistrerCommande(commande commande) {
         if (commande.validerCommande()) {
             commandes.add(commande);
+
+            // Décrémentation des stocks après validation de la commande
+            for (Map.Entry<Produit, Integer> entry : commande.produitsCommande.entrySet()) {
+                Produit produit = entry.getKey();
+                int quantiteCommandee = entry.getValue();
+
+                produit.setQuantite(produit.getQuantite() - quantiteCommandee);
+
+                if (produit.getQuantite() < 5) {
+                    System.out.println("⚠️ Attention : Stock critique pour " + produit.getNom() + " (" + produit.getQuantite() + " restant)");
+                }
+            }
             System.out.println("Commande enregistrée avec succès.");
         } else {
             System.out.println("Commande échouée en raison de stocks insuffisants.");
         }
+    }
+
+    public void afficherStocks() {
+        System.out.println("=== Stocks Actuels ===");
+        for (Produit produit : produits) {
+            System.out.println(produit.getNom() + ": " + produit.getQuantite() + " unités");
+        }
+    }
+
+    public Produit trouverProduit(String nom) {
+        for (Produit produit : produits) {
+            if (produit.getNom().equalsIgnoreCase(nom)) {
+                return produit;
+            }
+        }
+        System.out.println("Produit non trouvé : " + nom);
+        return null;
     }
 }
