@@ -5,7 +5,12 @@ import java.util.Iterator;
 
 public class Pharmacie {
 
-    ArrayList<Produit> produits = new ArrayList<>();
+    ArrayList<Produit> produits ;
+
+
+    public Pharmacie() {
+        this.produits = new ArrayList();
+    }
 
     public void afficherListeProduits(){
         produits.sort(Comparator.comparing(Produit::getNom));
