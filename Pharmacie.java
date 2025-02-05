@@ -14,4 +14,14 @@ public class Pharmacie {
             System.out.println(iterator.next().toString());
         }
     }
+
+    public void ajouterProduit(String nom, int quantite, float prix, Categorie categorie){
+        if (quantite <= 0) {
+            return;}
+        if (prix <= 0) {
+            return;
+        }
+        Produit produit = new Produit(nom, quantite, prix, categorie);
+        produits.add(produit);
+    }
 }
