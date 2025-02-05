@@ -67,4 +67,18 @@ public class Pharmacie {
 
     }
 
+    public void afficherQuantiteMoins5 () {
+        int debut  = 0;
+        int fin  = produits.size() - 1;
+        while (debut < fin) {
+            int millieu = produits.size() / 2;
+            if (produits.get(millieu).getQuantite() < 5) {
+                System.out.println(produits.get(millieu));
+            }
+            else if (produits.get(millieu).getQuantite() >= 5) {
+                fin = millieu - 1;
+            }
+        }
+    }
+
 }
