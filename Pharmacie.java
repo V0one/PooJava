@@ -20,11 +20,12 @@ public class Pharmacie {
         }
     }
 
-    public void ajouterProduit(String nom, int quantite, float prix, Categorie categorie) {
+    public void ajouterProduit(String nom, int quantite, float prix, String categorie) {
         if (quantite <= 0 || prix <= 0) {
             return;
         }
-        Produit produit = new Produit(nom, quantite, prix, categorie);
+        Categorie categorie1 = new Categorie(categorie);
+        Produit produit = new Produit(nom, quantite, prix, categorie1);
         produits.add(produit);
     }
 
@@ -67,18 +68,42 @@ public class Pharmacie {
 
     }
 
-    public void afficherQuantiteMoins5 () {
-        int debut  = 0;
-        int fin  = produits.size() - 1;
-        while (debut < fin) {
-            int millieu = produits.size() / 2;
-            if (produits.get(millieu).getQuantite() < 5) {
-                System.out.println(produits.get(millieu));
-            }
-            else if (produits.get(millieu).getQuantite() >= 5) {
-                fin = millieu - 1;
+        public void triPrix(){
+            for (int i = 0 ; i < produits.size(); i++) {
+                int indice = i;
+                float min = produits.get(i).getQuantite();
+                for (int j = i; j < produits.size(); j++) {
+                    if (produits.get(j).getQuantite() < min) {
+                        min = produits.get(j).getQuantite();
+                        indice = j;
+                    }
+
+                }
+                Produit temp = produits.get(i);
+                produits.set(i,produits.get(indice));
+                produits.set(indice,temp);
+
             }
         }
+
+    public void afficherQuantiteMoins5 () {
+//        int debut = 0;
+//        int fin  = produits.size() - 1;
+//        while (debut < fin) {
+//            int millieu = produits.size() / 2;
+//            if (produits.get(millieu).getQuantite() < 5) {
+//                System.out.println(produits.get(millieu));
+//            }
+//            else if (produits.get(millieu).getQuantite() >= 5) {
+//                fin = millieu - 1;
+//            }
+        triPrix();
+        for (Produit p : produits) {
+            if (p.getQuantite() < 5) {
+                System.out.println(p);
+            }
+        }
+
     }
 
 }
