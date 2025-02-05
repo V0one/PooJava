@@ -5,11 +5,12 @@ import java.util.Optional;
 
 public class Pharmacie {
 
-    ArrayList<Produit> produits ;
-
+    ArrayList<Produit> produits;
+    ArrayList<commande> commandes;
 
     public Pharmacie() {
-        this.produits = new ArrayList();
+        this.produits = new ArrayList<>();
+        this.commandes = new ArrayList<>();
     }
 
     public void afficherListeProduits() {
@@ -41,30 +42,33 @@ public class Pharmacie {
         }
     }
 
-    public int afficherProduit (String nom) {
+    public int afficherProduit(String nom) {
         nom = nom.toUpperCase();
         char premierChar = nom.charAt(0);
-        int debut  = 0;
-        int fin  = produits.size() - 1;
+        int debut = 0;
+        int fin = produits.size() - 1;
 
-        while (debut < fin) {
-            int millieu = produits.size() / 2;
+        while (debut <= fin) {
+            int millieu = (debut + fin) / 2;
 
             if (premierChar == produits.get(millieu).getNom().toUpperCase().charAt(0)) {
                 return produits.get(millieu).getQuantite();
-            }
-            else if (premierChar < produits.get(millieu).getNom().toUpperCase().charAt(0)) {
+            } else if (premierChar < produits.get(millieu).getNom().toUpperCase().charAt(0)) {
                 fin = millieu - 1;
-            }
-            else {
+            } else {
                 debut = millieu + 1;
             }
         }
         System.out.println("Erreur de la produit, il n'existe pas");
         return -1;
-
-
-
     }
 
+    public void enregistrerCommande(commande commande) {
+        if (commande.validerCommande()) {
+            commandes.add(commande);
+            System.out.println("Commande enregistrée avec succès.");
+        } else {
+            System.out.println("Commande échouée en raison de stocks insuffisants.");
+        }
+    }
 }
