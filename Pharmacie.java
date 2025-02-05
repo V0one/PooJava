@@ -25,7 +25,7 @@ public class Pharmacie {
         char premierChar = nom.charAt(0);
         int debut  = 0;
         int fin  = produits.size() - 1;
-        
+
         while (debut < fin) {
             int millieu = produits.size() / 2;
 
