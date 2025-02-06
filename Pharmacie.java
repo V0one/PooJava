@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Pharmacie {
 
@@ -28,6 +25,26 @@ public class Pharmacie {
         Categorie categorie1 = new Categorie(categorie);
         Produit produit = new Produit(nom, quantite, prix, categorie1);
         produits.add(produit);
+    }
+
+    public void supprimerProduit(String nomProduit) {
+        Produit produitASupprimer = trouverProduit(nomProduit);
+
+        if (produitASupprimer == null) {
+            System.out.println("❌ Produit introuvable : " + nomProduit);
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Voulez-vous vraiment supprimer le produit '" + nomProduit + "' ? (oui/non) : ");
+        String reponse = scanner.nextLine().trim().toLowerCase();
+
+        if (reponse.equals("oui")) {
+            produits.remove(produitASupprimer);
+            System.out.println("✅ Produit supprimé : " + nomProduit);
+        } else {
+            System.out.println("❎ Suppression annulée.");
+        }
     }
 
 
