@@ -65,7 +65,7 @@ public class Pharmacie {
         System.out.println("Erreur ! Le produit n'existe pas !");
     }
 
-        public void triPrix(){
+        public void triQuantite(){
             for (int i = 0 ; i < produits.size(); i++) {
                 int indice = i;
                 float min = produits.get(i).getQuantite();
@@ -94,7 +94,7 @@ public class Pharmacie {
 //            else if (produits.get(millieu).getQuantite() >= 5) {
 //                fin = millieu - 1;
 //            }
-        triPrix();
+        triQuantite();
         for (Produit p : produits) {
             if (p.getQuantite() < 5) {
                 System.out.println(p);

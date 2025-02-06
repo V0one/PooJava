@@ -5,19 +5,18 @@ public class Admin extends Utilisateur implements Role {
         super(email, mdp);
     }
 
-    public void ajouterUtilisateur(String email, String mdp, ArrayList<Utilisateur> utilisateurs) {
+    public void ajouterUtilisateur(Utilisateur utilisateur, ArrayList<Utilisateur> utilisateurs) {
         if (utilisateurs.size() == 0) {
-            utilisateurs.add(new Utilisateur(email, mdp) {
-            });
+            utilisateurs.add(utilisateur);
             return;
         }
-        for (Utilisateur utilisateur : utilisateurs) {
-            if (utilisateur.getEmail().equals(email)) {
+        for (Utilisateur utilisateurBoucle : utilisateurs) {
+            if (utilisateur.getEmail().toUpperCase().equals(utilisateurBoucle.getEmail().toUpperCase())) {
                 System.out.println("L'email existe déjà impossible d'ajouter un utilisateur");
                 return;
             }
         }
-        utilisateurs.add(new Utilisateur(email, mdp) {});
+        utilisateurs.add(utilisateur);
 
     }
 
