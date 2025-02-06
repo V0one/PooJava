@@ -55,7 +55,6 @@ public class Pharmacie {
         if (commande.validerCommande()) {
             commandes.add(commande);
 
-            // Décrémentation des stocks après validation de la commande
             for (Map.Entry<Produit, Integer> entry : commande.produitsCommande.entrySet()) {
                 Produit produit = entry.getKey();
                 int quantiteCommandee = entry.getValue();
