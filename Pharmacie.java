@@ -1,15 +1,16 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Optional;
+import java.util.Map;
 
 public class Pharmacie {
 
-    ArrayList<Produit> produits ;
-
+    ArrayList<Produit> produits;
+    ArrayList<commande> commandes;
 
     public Pharmacie() {
-        this.produits = new ArrayList();
+        this.produits = new ArrayList<>();
+        this.commandes = new ArrayList<>();
     }
 
     public void afficherListeProduits() {
@@ -29,18 +30,6 @@ public class Pharmacie {
         produits.add(produit);
     }
 
-    public void supprimerProduit(String nom) {
-        Optional<Produit> produitTrouve = produits.stream()
-                .filter(produit -> produit.getNom().equalsIgnoreCase(nom))
-                .findFirst();
-
-        if (produitTrouve.isPresent()) {
-            produits.remove(produitTrouve.get());
-            System.out.println("Produit supprimé avec succès !");
-        } else {
-            System.out.println("Produit non trouvé.");
-        }
-    }
 
     public int afficherProduit (String nom) {
         nom = nom.toUpperCase();
@@ -63,9 +52,43 @@ public class Pharmacie {
         }
         System.out.println("Erreur de la produit, il n'existe pas");
         return -1;
+    }
 
+    public void enregistrerCommande(commande commande) {
+        if (commande.validerCommande()) {
+            commandes.add(commande);
 
+            for (Map.Entry<Produit, Integer> entry : commande.produitsCommande.entrySet()) {
+                Produit produit = entry.getKey();
+                int quantiteCommandee = entry.getValue();
 
+                produit.setQuantite(produit.getQuantite() - quantiteCommandee);
+
+                if (produit.getQuantite() < 5) {
+                    System.out.println("⚠️ Attention : Stock critique pour " + produit.getNom() + " (" + produit.getQuantite() + " restant)");
+                }
+            }
+            System.out.println("Commande enregistrée avec succès.");
+        } else {
+            System.out.println("Commande échouée en raison de stocks insuffisants.");
+        }
+    }
+
+    public void afficherStocks() {
+        System.out.println("=== Stocks Actuels ===");
+        for (Produit produit : produits) {
+            System.out.println(produit.getNom() + ": " + produit.getQuantite() + " unités");
+        }
+    }
+
+    public Produit trouverProduit(String nom) {
+        for (Produit produit : produits) {
+            if (produit.getNom().equalsIgnoreCase(nom)) {
+                return produit;
+            }
+        }
+        System.out.println("Produit non trouvé : " + nom);
+        return null;
     }
 
         public void triPrix(){
@@ -106,4 +129,12 @@ public class Pharmacie {
 
     }
 
+    public void afficherHistoriqueCommandes() {
+        commandes.sort(Comparator.comparing(commande::getDateCommande).reversed());
+        System.out.println("=== Historique des Commandes ===");
+        for (commande commande : commandes) {
+            commande.afficherCommande();
+            System.out.println("--------------------------------");
+        }
+    }
 }
