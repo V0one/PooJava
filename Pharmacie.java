@@ -30,19 +30,6 @@ public class Pharmacie {
         produits.add(produit);
     }
 
-    public void supprimerProduit(String nom) {
-        Optional<Produit> produitTrouve = produits.stream()
-                .filter(produit -> produit.getNom().equalsIgnoreCase(nom))
-                .findFirst();
-
-        if (produitTrouve.isPresent()) {
-            produits.remove(produitTrouve.get());
-            System.out.println("Produit supprimé avec succès !");
-        } else {
-            System.out.println("Produit non trouvé.");
-        }
-    }
-
     public int afficherProduit(String nom) {
         nom = nom.toUpperCase();
         char premierChar = nom.charAt(0);
@@ -103,7 +90,6 @@ public class Pharmacie {
     }
 
     public void afficherHistoriqueCommandes() {
-        // Trier par date décroissante
         commandes.sort(Comparator.comparing(commande::getDateCommande).reversed());
         System.out.println("=== Historique des Commandes ===");
         for (commande commande : commandes) {
