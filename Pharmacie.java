@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class Pharmacie {
 
@@ -29,18 +30,36 @@ public class Pharmacie {
         produits.add(produit);
     }
 
-    public void supprimerProduit(String nom) {
-        Optional<Produit> produitTrouve = produits.stream()
-                .filter(produit -> produit.getNom().equalsIgnoreCase(nom))
-                .findFirst();
+    public Produit trouverProduit(String nom) {
+        for (Produit produit : produits) {
+            if (produit.getNom().equalsIgnoreCase(nom)) {
+                return produit;
+            }
+        }
+        System.out.println("Produit non trouvé : " + nom);
+        return null;
+    }
 
-        if (produitTrouve.isPresent()) {
-            produits.remove(produitTrouve.get());
-            System.out.println("Produit supprimé avec succès !");
+    public void supprimerProduit(String nomProduit) {
+        Produit produitASupprimer = trouverProduit(nomProduit);
+
+        if (produitASupprimer == null) {
+            System.out.println("❌ Produit introuvable : " + nomProduit);
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Voulez-vous vraiment supprimer le produit '" + nomProduit + "' ? (oui/non) : ");
+        String reponse = scanner.nextLine().trim().toLowerCase();
+
+        if (reponse.equals("oui")) {
+            produits.remove(produitASupprimer);
+            System.out.println("✅ Produit supprimé : " + nomProduit);
         } else {
-            System.out.println("Produit non trouvé.");
+            System.out.println("❎ Suppression annulée.");
         }
     }
+
 
     public int afficherProduit (String nom) {
         nom = nom.toUpperCase();
