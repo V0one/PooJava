@@ -42,17 +42,18 @@ public class Pharmacie {
         }
     }
 
-    public int afficherProduit (String nom) {
+    public void afficherProduit (String nom) {
         nom = nom.toUpperCase();
         char premierChar = nom.charAt(0);
         int debut  = 0;
-        int fin  = produits.size() - 1;
+        int fin  = produits.size() ;
 
         while (debut < fin) {
-            int millieu = produits.size() / 2;
+            int millieu = (debut + fin) / 2;
 
-            if (premierChar == produits.get(millieu).getNom().toUpperCase().charAt(0)) {
-                return produits.get(millieu).getQuantite();
+            if (nom.equals(produits.get(millieu).getNom().toUpperCase())) {
+                System.out.println("Le produit " + nom + " est disponible ! Et il en reste encore " + produits.get(millieu).getQuantite() + " exemplaire.");
+                return;
             }
             else if (premierChar < produits.get(millieu).getNom().toUpperCase().charAt(0)) {
                 fin = millieu - 1;
@@ -61,11 +62,7 @@ public class Pharmacie {
                 debut = millieu + 1;
             }
         }
-        System.out.println("Erreur de la produit, il n'existe pas");
-        return -1;
-
-
-
+        System.out.println("Erreur ! Le produit n'existe pas !");
     }
 
         public void triPrix(){
@@ -103,7 +100,8 @@ public class Pharmacie {
                 System.out.println(p);
             }
         }
-
+    // Je re trie le tableau afin que ça n'impacte pas les autres fonction qui eux travail sur un tableau trié de manière alphabetique
+    produits.sort(Comparator.comparing(Produit::getNom));
     }
 
 }
