@@ -101,4 +101,14 @@ public class Pharmacie {
         System.out.println("Produit non trouvé : " + nom);
         return null;
     }
+
+    public void afficherHistoriqueCommandes() {
+        // Trier par date décroissante
+        commandes.sort(Comparator.comparing(commande::getDateCommande).reversed());
+        System.out.println("=== Historique des Commandes ===");
+        for (commande commande : commandes) {
+            commande.afficherCommande();
+            System.out.println("--------------------------------");
+        }
+    }
 }

@@ -1,8 +1,14 @@
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.HashMap;
 
 public abstract class commande {
     protected Map<Produit, Integer> produitsCommande = new HashMap<>();
+    protected LocalDateTime dateCommande;
+
+    public commande() {
+        this.dateCommande = LocalDateTime.now();
+    }
 
     public void ajouterProduit(Produit produit, int quantite) {
         if (quantite <= 0) return;
@@ -12,7 +18,6 @@ public abstract class commande {
     public boolean validerCommande() {
         boolean stocksSuffisants = true;
 
-        // Vérification des stocks
         for (Map.Entry<Produit, Integer> entry : produitsCommande.entrySet()) {
             Produit produit = entry.getKey();
             int quantiteDemandee = entry.getValue();
@@ -24,13 +29,11 @@ public abstract class commande {
         }
 
         if (stocksSuffisants) {
-            // Mise à jour des stocks
             for (Map.Entry<Produit, Integer> entry : produitsCommande.entrySet()) {
                 Produit produit = entry.getKey();
                 int quantiteDemandee = entry.getValue();
                 produit.setQuantite(produit.getQuantite() - quantiteDemandee);
 
-                // Alerte si la quantité devient critique
                 if (produit.getQuantite() < 5) {
                     System.out.println("⚠️ Attention : Stock critique pour " + produit.getNom() + " (" + produit.getQuantite() + " restant)");
                 }
@@ -46,5 +49,13 @@ public abstract class commande {
             Integer quantite = entry.getValue();
             System.out.println(produit.getNom() + " - Quantité: " + quantite);
         }
+    }
+
+    public void setDateCommande() {
+        this.dateCommande = LocalDateTime.now();
+    }
+
+    public LocalDateTime getDateCommande() {
+        return dateCommande;
     }
 }
