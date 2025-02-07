@@ -1,6 +1,9 @@
+import java.io.Serializable;
 import java.util.Map;
 
-public class CommandeStandard extends commande{
+public class CommandeStandard extends commande implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Override
     public boolean validerCommande() {
         for (Map.Entry<Produit, Integer> entry : produitsCommande.entrySet()) {

@@ -58,6 +58,14 @@ public abstract class commande implements Serializable {
         this.dateCommande = LocalDateTime.now();
     }
 
+    public Map<Produit, Integer> getProduitsCommande() {
+        return produitsCommande;
+    }
+
+    public void setProduitsCommande(Map<Produit, Integer> produitsCommande) {
+        this.produitsCommande = produitsCommande;
+    }
+
     public LocalDateTime getDateCommande() {
         return dateCommande;
     }

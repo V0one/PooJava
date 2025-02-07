@@ -24,7 +24,7 @@ public class ChargementDonne {
         return (ArrayList<Utilisateur>) charger(fichier);
     }
 
-    public static Map<Produit, Integer> chargerProduitsCommande(String fichier) {
-        return (Map<Produit, Integer>) charger(fichier);
+    public static ArrayList<commande> chargerProduitsCommande(String fichier) {
+        return (ArrayList<commande>) charger(fichier);
     }
 }

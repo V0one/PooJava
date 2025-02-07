@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.Map;
 
-public class CommandeUrgence extends commande {
+public class CommandeUrgence extends commande implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Override
     public boolean validerCommande() {

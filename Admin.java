@@ -28,6 +28,7 @@ public class Admin extends Utilisateur implements Role, Serializable {
         for (Utilisateur utilisateur : utilisateurs) {
             if (utilisateur.getEmail().equals(email)) {
                 utilisateurs.remove(utilisateur);
+                System.out.println("L'utilisateur à bien été supprimé");
             }
         }
     }

@@ -16,8 +16,8 @@ public class SauvegardeDonnee {
         sauvergarderDonne(utilisateurs, fichier);
     }
 
-    public static void sauvegarderCommande (ArrayList<commande> produitsCommande, String fichier) {
-        sauvergarderDonne(produitsCommande, fichier);
+    public static void sauvegarderCommande ( String fichier,ArrayList<commande> commandes1 ) {
+        sauvergarderDonne(commandes1, fichier);
     }
 
     public static void sauvegarderProduits (ArrayList<Produit> produits, String fichier) {

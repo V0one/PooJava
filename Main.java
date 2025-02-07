@@ -1,6 +1,9 @@
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map;
+
+
 public class Main {
     public static void main(String[] args) {
         Pharmacie pharmacie = new Pharmacie();
@@ -11,12 +14,19 @@ public class Main {
         boolean connecter = false;
         Utilisateur personne = null;
 
+        //Map<Produit, Integer> commandeProduit = ChargementDonne.chargerProduitsCommande("produitCommande.ser");
+        ArrayList<commande> commandeProduit = ChargementDonne.chargerProduitsCommande("produitCommande.ser");
+        pharmacie.setCommandes(commandeProduit);
+
+
         ArrayList<Utilisateur> utilisateurs = ChargementDonne.chargerUtilisateurs("utilisateurs.ser");
         listeUtilisateur.setUtilisateurs(utilisateurs);
-        
-        //ArrayList<Produit> produits = ChargementDonne.chargerProduits("produits.ser");
+
+        ArrayList<Produit> produits = ChargementDonne.chargerProduits("produit.ser");
+        pharmacie.setProduits(produits);
+
         for (Utilisateur utilisateur : utilisateurs) {
-            System.out.println(utilisateur.getEmail() + utilisateur.getMdp());
+            System.out.println(utilisateur.getEmail() + " " + utilisateur.getClass());
         }
 
         while (!connecter) {
@@ -31,12 +41,15 @@ public class Main {
         }
 
         int choix = 0;
-        while (choix != 3) {
-            if (personne.getClass() == Admin.class) {
+        if (personne.getClass() == Admin.class) {
+            while (choix != 3) {
+
                 System.out.println("\n === Gestion des utilisateurs ===");
                 System.out.println("1. Créer un compte");
                 System.out.println("2. Supprimer un compte ");
                 System.out.println("3. Quitter");
+                System.out.print("Choisissez une option : ");
+
 
                 choix = Integer.parseInt(scanner.nextLine());
 
@@ -46,8 +59,16 @@ public class Main {
                         String email = scanner.nextLine();
                         System.out.print("Veuillez entrer l'mdp : ");
                         String mdp = scanner.nextLine();
+                        System.out.print("Quelle type d'utilisateur Employe / Client ");
+                        String type = scanner.nextLine();
+                        if (type.equalsIgnoreCase("client")) {
+                            Client client = new Client(email,mdp);
+                            admin.ajouterUtilisateur(client,listeUtilisateur.getUtilisateurs());
+                        }
+                        else {
                         Employe employe = new Employe(email, mdp);
                         admin.ajouterUtilisateur(employe, listeUtilisateur.getUtilisateurs());
+                        }
                         SauvegardeDonnee.sauvergarderUtilisateurs(listeUtilisateur.getUtilisateurs(),"utilisateurs.ser");
                         break;
                     case 2:
@@ -58,6 +79,8 @@ public class Main {
                         break;
                     case 3:
                         System.out.println("Au revoir !");
+                        break;
+
                     default:
                         System.out.println("❌ Option invalide. Veuillez réessayer.");
                 }
@@ -77,10 +100,11 @@ public class Main {
                 System.out.println("4. Enregistrer une commande");
                 System.out.println("5. Afficher les stocks critiques (<5)");
                 System.out.println("6. Afficher l'historique des commandes");
-                System.out.println("7. Quitter");
+                System.out.println("7. Exporter les statistiques");
+                System.out.println("8. Quitter");
                 System.out.print("Choisissez une option : ");
 
-                choix = Integer.parseInt(scanner.nextLine());
+                choixPharmacie = Integer.parseInt(scanner.nextLine());
 
                 switch (choixPharmacie) {
                     case 1:
@@ -137,6 +161,9 @@ public class Main {
                                 System.out.print("Quantité : ");
                                 int quantiteCommande = Integer.parseInt(scanner.nextLine());
                                 commande.ajouterProduit(produitCommande, quantiteCommande);
+                                SauvegardeDonnee.sauvegarderProduits(pharmacie.getProduits(),"produit.ser");
+                                SauvegardeDonnee.sauvegarderCommande( "produitCommande.ser",pharmacie.getCommandes());
+
                             } else {
                                 System.out.println("❌ Produit non trouvé.");
                             }
@@ -152,8 +179,10 @@ public class Main {
                     case 6:
                         pharmacie.afficherHistoriqueCommandes();
                         break;
+                    case  7 :
+                        pharmacie.exporterStatistiquesVentes("Statistiques.csv");
 
-                    case 7:
+                    case 8:
                         System.out.println("Au revoir !");
                         break;
 
@@ -161,13 +190,36 @@ public class Main {
                         System.out.println("❌ Option invalide. Veuillez réessayer.");
                 }
             }
+        } else if (personne.getClass() == Client.class) {
+            //System.out.println("4. Rechercher un produit");
+            //case 4:
+            //System.out.print("Nom du produit à rechercher : ");
+            //String produitRecherche = scanner.nextLine();
+            //pharmacie.afficherProduit(produitRecherche);
+            //break;
+            choix = 0;
+            while (choix != 2 ) {
+                System.out.println("\n=== Recherche de produit ===");
+                System.out.println("1. Rechercher un produit");
+                System.out.println("2. Quittez");
+                System.out.print("Choisissez une option : ");
+                choix = Integer.parseInt(scanner.nextLine());
+
+
+                switch (choix) {
+                    case 1:
+                        System.out.print("Nom du produit : ");
+                        String nom = scanner.nextLine();
+                        pharmacie.afficherProduit(nom);
+                        break;
+                    case 2:
+                        System.out.println("Au revoir !");
+                        break;
+                    default:
+                        System.out.println("La saisie est inpossible");
+                }
+            }
         }
-        //System.out.println("4. Rechercher un produit");
-        //case 4:
-        //System.out.print("Nom du produit à rechercher : ");
-        //String produitRecherche = scanner.nextLine();
-        //pharmacie.afficherProduit(produitRecherche);
-        //break;
 
         scanner.close();
     }
