@@ -1,6 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Admin extends Utilisateur implements Role {
+public class Admin extends Utilisateur implements Role, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     public Admin(String email, String mdp) {
         super(email, mdp);
     }

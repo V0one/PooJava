@@ -228,9 +228,9 @@ public class Pharmacie implements Serializable {
             // Écrire le chiffre d'affaires total
             writer.write("Chiffre d'affaires total: " + chiffreAffairesTotal + "\n");
 
-            System.out.println("✅ Statistiques de ventes exportées dans le fichier : " + nomFichier);
+            System.out.println(" Statistiques de ventes exportées dans le fichier : " + nomFichier);
         } catch (IOException e) {
-            System.err.println("❌ Erreur lors de l'exportation des statistiques : " + e.getMessage());
+            System.err.println(" Erreur lors de l'exportation des statistiques : " + e.getMessage());
         }
     }
 }

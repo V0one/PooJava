@@ -16,7 +16,7 @@ public class SauvegardeDonnee {
         sauvergarderDonne(utilisateurs, fichier);
     }
 
-    public static void sauvegarderCommande (HashMap<Produit, Integer> produitsCommande, String fichier) {
+    public static void sauvegarderCommande (ArrayList<commande> produitsCommande, String fichier) {
         sauvergarderDonne(produitsCommande, fichier);
     }
 

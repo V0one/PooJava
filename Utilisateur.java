@@ -1,4 +1,8 @@
-public abstract class Utilisateur {
+import java.io.Serializable;
+
+public abstract class Utilisateur implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String email ;
     private String mdp ;
 

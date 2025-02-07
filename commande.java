@@ -1,10 +1,13 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.HashMap;
 
-public abstract class commande {
-    protected Map<Produit, Integer> produitsCommande = new HashMap<>();
-    protected LocalDateTime dateCommande;
+public abstract class commande implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    protected Map<Produit, Integer> produitsCommande = new HashMap<>() ;
+    protected LocalDateTime dateCommande ;
 
     public commande() {
         this.dateCommande = LocalDateTime.now();
