@@ -1,5 +1,8 @@
-public class Categorie {
+import java.io.Serializable;
 
+public class Categorie implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private String nom;
 
     public Categorie(String nom) {

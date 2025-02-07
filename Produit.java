@@ -1,5 +1,8 @@
-public class Produit {
+import java.io.Serializable;
 
+public class Produit  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private String nom ;
     private float prix ;
     private int quantite ;
