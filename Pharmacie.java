@@ -1,13 +1,31 @@
+import java.io.Serializable;
 import java.util.*;
 
-public class Pharmacie {
+public class Pharmacie implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     ArrayList<Produit> produits;
     ArrayList<commande> commandes;
 
     public Pharmacie() {
         this.produits = new ArrayList<>();
         this.commandes = new ArrayList<>();
+    }
+
+    public ArrayList<Produit> getProduits() {
+        return produits;
+    }
+
+    public ArrayList<commande> getCommandes() {
+        return commandes;
+    }
+
+    public void setCommandes(ArrayList<commande> commandes) {
+        this.commandes = commandes;
+    }
+
+    public void setProduits(ArrayList<Produit> produits) {
+        this.produits = produits;
     }
 
     public void afficherListeProduits() {

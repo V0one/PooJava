@@ -15,7 +15,7 @@ public class ListeUtilisateur {
                 return utilisateur;
             }
             else if (utilisateur.getEmail().equalsIgnoreCase(email) && !utilisateur.getMdp().equals(mdp)) {
-                System.out.println("Le mod de passe est mauvais");
+                System.out.println("Le mot de passe est mauvais");
                 return null;
             }
 
@@ -26,5 +26,9 @@ public class ListeUtilisateur {
 
     public ArrayList<Utilisateur> getUtilisateurs() {
         return utilisateurs;
+    }
+
+    public void setUtilisateurs(ArrayList<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
     }
 }
