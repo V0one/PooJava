@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Pharmacie {
 
@@ -153,6 +155,64 @@ public class Pharmacie {
         for (commande commande : commandes) {
             commande.afficherCommande();
             System.out.println("--------------------------------");
+        }
+    }
+
+    public void exporterStatistiquesVentes(String nomFichier) {
+        // Map pour stocker les quantités vendues par produit
+        Map<Produit, Integer> quantitesVenduesParProduit = new HashMap<>();
+
+        // Variables pour le produit le plus vendu et le chiffre d'affaires total
+        Produit produitLePlusVendu = null;
+        int quantiteMaxVendue = 0;
+        float chiffreAffairesTotal = 0;
+
+        // Parcourir toutes les commandes pour calculer les statistiques
+        for (commande commande : commandes) {
+            for (Map.Entry<Produit, Integer> entry : commande.produitsCommande.entrySet()) {
+                Produit produit = entry.getKey();
+                int quantiteVendue = entry.getValue();
+
+                // Mettre à jour les quantités vendues par produit
+                quantitesVenduesParProduit.put(produit, quantitesVenduesParProduit.getOrDefault(produit, 0) + quantiteVendue);
+
+                // Mettre à jour le produit le plus vendu
+                if (quantitesVenduesParProduit.get(produit) > quantiteMaxVendue) {
+                    produitLePlusVendu = produit;
+                    quantiteMaxVendue = quantitesVenduesParProduit.get(produit);
+                }
+
+                // Mettre à jour le chiffre d'affaires total
+                chiffreAffairesTotal += produit.getPrix() * quantiteVendue;
+            }
+        }
+
+        // Trier les produits par quantité vendue (ordre décroissant)
+        List<Map.Entry<Produit, Integer>> listeProduitsVendus = new ArrayList<>(quantitesVenduesParProduit.entrySet());
+        listeProduitsVendus.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+
+        // Générer le fichier CSV
+        try (FileWriter writer = new FileWriter(nomFichier)) {
+            // Écrire l'en-tête du fichier CSV
+            writer.write("Produit,Quantité Vendue,Prix Unitaire,Total\n");
+
+            // Écrire les données pour chaque produit
+            for (Map.Entry<Produit, Integer> entry : listeProduitsVendus) {
+                Produit produit = entry.getKey();
+                int quantiteVendue = entry.getValue();
+                float total = produit.getPrix() * quantiteVendue;
+                writer.write(produit.getNom() + "," + quantiteVendue + "," + produit.getPrix() + "," + total + "\n");
+            }
+
+            // Écrire le produit le plus vendu
+            writer.write("\nProduit le plus vendu: " + produitLePlusVendu.getNom() + " (" + quantiteMaxVendue + " unités)\n");
+
+            // Écrire le chiffre d'affaires total
+            writer.write("Chiffre d'affaires total: " + chiffreAffairesTotal + "\n");
+
+            System.out.println("✅ Statistiques de ventes exportées dans le fichier : " + nomFichier);
+        } catch (IOException e) {
+            System.err.println("❌ Erreur lors de l'exportation des statistiques : " + e.getMessage());
         }
     }
 }
